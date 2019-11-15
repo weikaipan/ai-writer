@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basketball-court-service
+  labels:
+    deployment: basketball-court-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: basketball-court-service
+  template:
+    metadata:
+      labels:
+        pod: basketball-court-service
+    spec:
+      containers:
+        - name: basketball-court-service
+          image: wkpan1023/basketball-court-service:latest
+          ports:
+            - containerPort: 8000
