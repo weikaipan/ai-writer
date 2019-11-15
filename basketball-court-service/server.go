@@ -25,18 +25,20 @@ func main() {
 }
 
 func DisplayCourtStatus(c *gin.Context) {
-	firstname := c.DefaultQuery("firstname", "Guest")
-	lastname := c.Query("lastname") // shortcut for c.Request.URL.Query().Get("lastname")
-	courtInfo, err := db.RetrieveCourtInfo() 
+	/*
+	 *  Method: GET
+	 *  Return a specific basketball court information.
+	 */
+	name := c.Query("name")
+	courtInfo, err := db.RetrieveCourtInfo(name) 
 	if err == nil {
 		c.JSON(http.StatusOK, gin.H {
 			"lon": courtInfo.Lon,
 			"lat": courtInfo.Lat,
-			"firstname": firstname,
-			"lastname": lastname,
-		})		
+			"name": courtInfo.name,
+		})
 	} else {
-		c.JSON(http.StatusInternalServerError , gin.H {
+		c.JSON(http.StatusInternalServerError, gin.H {
 			"error": "error",
 		})
 	}
@@ -56,12 +58,30 @@ func SpamCourt(c *gin.Context) {
 			"id": courtId,
 		})
 	} else {
-		c.JSON(http.StatusInternalServerError , gin.H {
+		c.JSON(http.StatusInternalServerError, gin.H {
 			"error": "error",
 		})
 	}
 }
 
 func UploadCourt(c *gin.Context) {
+	/*
+	 *	Method: POST
+	 *  User uploads a basketball court's location, 
+	 *  indoor or outdoor, and other information.
+	 */
+	 lon := c.Query("lon")
+	 lat := c.Query("lat")
+	 indoor := c.Query("indoor")
 
+	 message, err = db.SaveNewCourt()
+	 if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"message": message,
+		})
+	 } else {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "error",
+		})
+	 }
 }

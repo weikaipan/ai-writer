@@ -15,10 +15,10 @@ RUN go get -u github.com/gin-gonic/gin
 COPY . .
 
 # Build the Go app
-RUN go build -o main .
+RUN go build -o server .
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Command to run the executable
-CMD ["./server.go"]
+CMD ["./server"]
